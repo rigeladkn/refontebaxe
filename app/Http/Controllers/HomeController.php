@@ -3,10 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-<<<<<<< HEAD
-=======
 use App\Repositories\SoldeRepository;
->>>>>>> tgenougan
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
@@ -16,7 +13,6 @@ class HomeController extends Controller
     {
         // dd($request);
         // dd($this->user);
-
         $data["user"] = "";
         $data["flag"] = auth()->user()->pays->url_drapeau;
         $solde = getUserSolde(auth()->user());
@@ -39,17 +35,6 @@ class HomeController extends Controller
         
         $account_status["percentage"] = intval(($percentage / 4)*100);
 
-<<<<<<< HEAD
-        return view('dashboard.index', [
-            "data" => $data,
-            "account_status" => $account_status
-        ]);
-    }
-
-    public function transactions(Request $request)
-    {
-        return view('dashboard.transactions');
-=======
         $transactionsContent = $repository->getHistories(auth()->user(), "dashboard")['transactionsContent'];
         $transactions = $repository->getHistories(auth()->user(), "dashboard")['transactions'];
     //    dd($transactionsContent, $transactions);
@@ -73,7 +58,6 @@ class HomeController extends Controller
 
         // dd($transactionsContent);
         return view('dashboard.transactions', compact('data','transactionsContent','transactions'));
->>>>>>> tgenougan
     }
 
     public function send(Request $request)
