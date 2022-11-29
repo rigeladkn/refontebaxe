@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Support\Facades\Request;
 
 if (!function_exists('format_number_phone_ci'))
@@ -29,5 +30,19 @@ if (! function_exists('active_route'))
     function active_route($route_name)
     {
         return Request::route()->getName() == $route_name ? true : false;
+    }
+}
+
+// Ours helpers
+if (! function_exists('getUserById'))
+{
+    function getUserById($id)
+    {
+        $user =  User::findorfail($id);
+
+        if (empty($user)) {
+            $user = [];
+        }
+        return $user;
     }
 }

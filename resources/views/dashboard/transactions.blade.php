@@ -75,10 +75,10 @@
           =============================== -->
           <div class="transaction-title py-2 px-4">
             <div class="row">
-              <div class="col-2 col-sm-1 text-center"><span class="">Date</span></div>
-              <div class="col col-sm-7">Description</div>
-              <div class="col-auto col-sm-2 d-none d-sm-block text-center">Status</div>
-              <div class="col-3 col-sm-2 text-right">Amount</div>
+              <div class="col-2 col-sm-3 text-center"><span class="">Date</span></div>
+              <div class="col col-sm-5">Informations</div>
+              <div class="col-auto col-sm-2 d-none d-sm-block text-center">Type</div>
+              <div class="col-3 col-sm-2 text-right">Montant</div>
             </div>
           </div>
           <!-- Title End -->
@@ -86,62 +86,26 @@
           <!-- Transaction List
           =============================== -->
           <div class="transaction-list">
-            <div class="transaction-item px-4 py-3" data-toggle="modal" data-target="#transaction-detail">
-              <div class="row align-items-center flex-row">
-                <div class="col-2 col-sm-1 text-center"> <span class="d-block text-4 font-weight-300">16</span> <span class="d-block text-1 font-weight-300 text-uppercase">APR</span> </div>
-                <div class="col col-sm-7"> <span class="d-block text-4">HDFC Bank</span> <span class="text-muted">Withdraw to Bank account</span> </div>
-                <div class="col-auto col-sm-2 d-none d-sm-block text-center text-3"> <span class="text-warning" data-toggle="tooltip" data-original-title="In Progress"><i class="fas fa-ellipsis-h"></i></span> </div>
-                <div class="col-3 col-sm-2 text-right text-4"> <span class="text-nowrap">- $562</span> <span class="text-2 text-uppercase">(USD)</span> </div>
+            @foreach ($transactionsContent as $key => $item)
+              <div class="transaction-item px-4 py-3" data-toggle="modal" data-target="#transaction-detail{{$key}}">
+                <div class="row align-items-center flex-row">
+                  <div class="col-auto col-sm-3 d-none d-sm-block text-center text-3"> <span class="text-success"
+                    data-toggle="tooltip" data-original-title="Date de transaction">{{$item['created_at']}}</span>
+                  </div>
+                  <div class="col col-sm-5"> 
+                    <span class="d-block text-4">{{$item['user']}} </span> 
+                  </div>
+                  <div class="col-2 col-sm-2 text-center"> 
+                    <span class="d-block text-4 font-weight-300"><i class="{{$item["icon"]}}"></i></span> <span
+                      class="d-block text-1 font-weight-300 text-uppercase">{{$item['type']}}</span> 
+                  </div>
+                  <div class="col-3 col-sm-2 text-right text-4"> <span class="text-nowrap">{{number_format($item['montant'], 2)}} </span> <span
+                    class="text-2 text-uppercase">({{$data["devise"]}})</span> 
+                  </div>                  
+
+                </div>
               </div>
-            </div>
-            <div class="transaction-item px-4 py-3" data-toggle="modal" data-target="#transaction-detail">
-              <div class="row align-items-center flex-row">
-                <div class="col-2 col-sm-1 text-center"> <span class="d-block text-4 font-weight-300">15</span> <span class="d-block text-1 font-weight-300 text-uppercase">APR</span> </div>
-                <div class="col col-sm-7"> <span class="d-block text-4">Envato Pty Ltd</span> <span class="text-muted">Payment Received</span> </div>
-                <div class="col-auto col-sm-2 d-none d-sm-block text-center text-3"> <span class="text-success" data-toggle="tooltip" data-original-title="Completed"><i class="fas fa-check-circle"></i></span> </div>
-                <div class="col-3 col-sm-2 text-right text-4"> <span class="text-nowrap">+ $562</span> <span class="text-2 text-uppercase">(USD)</span> </div>
-              </div>
-            </div>
-            <div class="transaction-item px-4 py-3" data-toggle="modal" data-target="#transaction-detail">
-              <div class="row align-items-center flex-row">
-                <div class="col-2 col-sm-1 text-center"> <span class="d-block text-4 font-weight-300">04</span> <span class="d-block text-1 font-weight-300 text-uppercase">APR</span> </div>
-                <div class="col col-sm-7"> <span class="d-block text-4">HDFC Bank</span> <span class="text-muted">Withdraw to Bank account</span> </div>
-                <div class="col-auto col-sm-2 d-none d-sm-block text-center text-3"> <span class="text-success" data-toggle="tooltip" data-original-title="Completed"><i class="fas fa-check-circle"></i></span> </div>
-                <div class="col-3 col-sm-2 text-right text-4"> <span class="text-nowrap">- $106</span> <span class="text-2 text-uppercase">(USD)</span> </div>
-              </div>
-            </div>
-            <div class="transaction-item px-4 py-3" data-toggle="modal" data-target="#transaction-detail">
-              <div class="row align-items-center flex-row">
-                <div class="col-2 col-sm-1 text-center"> <span class="d-block text-4 font-weight-300">28</span> <span class="d-block text-1 font-weight-300 text-uppercase">MAR</span> </div>
-                <div class="col col-sm-7"> <span class="d-block text-4">Patrick Cary</span> <span class="text-muted">Refund</span> </div>
-                <div class="col-auto col-sm-2 d-none d-sm-block text-center text-3"> <span class="text-success" data-toggle="tooltip" data-original-title="Completed"><i class="fas fa-check-circle"></i></span> </div>
-                <div class="col-3 col-sm-2 text-right text-4"> <span class="text-nowrap">+ $60</span> <span class="text-2 text-uppercase">(USD)</span> </div>
-              </div>
-            </div>
-            <div class="transaction-item px-4 py-3" data-toggle="modal" data-target="#transaction-detail">
-              <div class="row align-items-center flex-row">
-                <div class="col-2 col-sm-1 text-center"> <span class="d-block text-4 font-weight-300">28</span> <span class="d-block text-1 font-weight-300 text-uppercase">MAR</span> </div>
-                <div class="col col-sm-7"> <span class="d-block text-4">Patrick Cary</span> <span class="text-muted">Payment Sent</span> </div>
-                <div class="col-auto col-sm-2 d-none d-sm-block text-center text-3"> <span class="text-danger" data-toggle="tooltip" data-original-title="Cancelled"><i class="fas fa-times-circle"></i></span> </div>
-                <div class="col-3 col-sm-2 text-right text-4"> <span class="text-nowrap">- $60</span> <span class="text-2 text-uppercase">(USD)</span> </div>
-              </div>
-            </div>
-            <div class="transaction-item px-4 py-3" data-toggle="modal" data-target="#transaction-detail">
-              <div class="row align-items-center flex-row">
-                <div class="col-2 col-sm-1 text-center"> <span class="d-block text-4 font-weight-300">16</span> <span class="d-block text-1 font-weight-300 text-uppercase">FEB</span> </div>
-                <div class="col col-sm-7"> <span class="d-block text-4">HDFC Bank</span> <span class="text-muted">Withdraw to Bank account</span> </div>
-                <div class="col-auto col-sm-2 d-none d-sm-block text-center text-3"> <span class="text-success" data-toggle="tooltip" data-original-title="Completed"><i class="fas fa-check-circle"></i></span> </div>
-                <div class="col-3 col-sm-2 text-right text-4"> <span class="text-nowrap">- $1498</span> <span class="text-2 text-uppercase">(USD)</span> </div>
-              </div>
-            </div>
-            <div class="transaction-item px-4 py-3" data-toggle="modal" data-target="#transaction-detail">
-              <div class="row align-items-center flex-row">
-                <div class="col-2 col-sm-1 text-center"> <span class="d-block text-4 font-weight-300">15</span> <span class="d-block text-1 font-weight-300 text-uppercase">FEB</span> </div>
-                <div class="col col-sm-7"> <span class="d-block text-4">Envato Pty Ltd</span> <span class="text-muted">Payment Received</span> </div>
-                <div class="col-auto col-sm-2 d-none d-sm-block text-center text-3"> <span class="text-success" data-toggle="tooltip" data-original-title="Completed"><i class="fas fa-check-circle"></i></span> </div>
-                <div class="col-3 col-sm-2 text-right text-4"> <span class="text-nowrap">+ $1498</span> <span class="text-2 text-uppercase">(USD)</span> </div>
-              </div>
-            </div>
+            @endforeach
           </div>
           <!-- Transaction List End -->
           
@@ -196,17 +160,10 @@
             </div>
           </div>
           <!-- Transaction Item Details Modal End -->
-          
           <!-- Pagination
           ============================================= -->
           <ul class="pagination justify-content-center mt-4 mb-0">
-            <li class="page-item disabled"> <a class="page-link" href="#" tabindex="-1"><i class="fas fa-angle-left"></i></a> </li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item active"> <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a> </li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item d-flex align-content-center flex-wrap text-muted text-5 mx-1">......</li>
-            <li class="page-item"><a class="page-link" href="#">15</a></li>
-            <li class="page-item"> <a class="page-link" href="#"><i class="fas fa-angle-right"></i></a> </li>
+            {{$transactions->links()}}
           </ul>
           <!-- Paginations end --> 
           

@@ -2,7 +2,14 @@
     "name": "laravel/laravel",
     "type": "project",
     "description": "The Laravel Framework.",
+<<<<<<< HEAD
     "keywords": ["framework", "laravel"],
+=======
+    "keywords": [
+        "framework",
+        "laravel"
+    ],
+>>>>>>> tgenougan
     "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",
@@ -32,7 +39,12 @@
         "psr-4": {
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
+<<<<<<< HEAD
             "Database\\Seeders\\": "database/seeders/"
+=======
+            "Database\\Seeders\\": "database/seeders/",
+            "App\\Repositories\\": "app/Http/Controllers/Repositories"
+>>>>>>> tgenougan
         },
         "files": [
             "app/Helpers/controller.php",

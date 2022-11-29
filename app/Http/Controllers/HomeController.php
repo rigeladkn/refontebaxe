@@ -3,13 +3,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+<<<<<<< HEAD
+=======
+use App\Repositories\SoldeRepository;
+>>>>>>> tgenougan
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
-    public function index(Request $request)
+
+    public function index(Request $request, SoldeRepository $repository)
     {
-        // dd(auth()->user());
+        // dd($request);
+        // dd($this->user);
 
         $data["user"] = "";
         $data["flag"] = auth()->user()->pays->url_drapeau;
@@ -33,6 +39,7 @@ class HomeController extends Controller
         
         $account_status["percentage"] = intval(($percentage / 4)*100);
 
+<<<<<<< HEAD
         return view('dashboard.index', [
             "data" => $data,
             "account_status" => $account_status
@@ -42,6 +49,31 @@ class HomeController extends Controller
     public function transactions(Request $request)
     {
         return view('dashboard.transactions');
+=======
+        $transactionsContent = $repository->getHistories(auth()->user(), "dashboard")['transactionsContent'];
+        $transactions = $repository->getHistories(auth()->user(), "dashboard")['transactions'];
+    //    dd($transactionsContent, $transactions);
+        return view('dashboard.index', [
+            "data" => $data,
+            "account_status" => $account_status,
+            "transactions" => $transactions,
+            "transactionsContent" => $transactionsContent,
+        ]);
+    }
+
+    public function transactions(Request $request, SoldeRepository $repository)
+    {
+        $data["user"] = "";
+        $data["flag"] = auth()->user()->pays->url_drapeau;
+        $solde = getUserSolde(auth()->user());
+        $data["solde"] = format_number_french($solde ?? 0, 2);
+        $data['devise'] = auth()->user()->pays->symbole_monnaie;
+        $transactionsContent = $repository->getHistories(auth()->user(), "dashboard")['transactionsContent'];
+        $transactions = $repository->getHistories(auth()->user(), "dashboard")['transactions'];
+
+        // dd($transactionsContent);
+        return view('dashboard.transactions', compact('data','transactionsContent','transactions'));
+>>>>>>> tgenougan
     }
 
     public function send(Request $request)

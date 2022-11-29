@@ -161,8 +161,22 @@
           ============================== -->
           <nav class="login-signup navbar navbar-expand">
             <ul class="navbar-nav">
+              @auth()
+                <li><a href="javascript:void(0)"
+                onclick="event.preventDefault(); document.getElementById('logout-form').submit()"><i class="ti-power-off"></i> Logout</a></li>
+                  <form id="logout-form" action="{{ route('logout') }}" method="POST" style="">
+                      @csrf
+                  </form>
+              @else
               <li><a href="{{route('login')}}">Se connecter</a> </li>
-              <li class="align-items-center h-auto ml-sm-3"><a class="btn btn-primary d-none d-sm-block" href="{{route("signup")}}">S'inscrire</a></li>
+                @if (Route::has('register'))
+                  <li class="align-items-center h-auto ml-sm-3">
+                    <a class="btn btn-primary d-none d-sm-block" href="{{route("signup")}}">S'inscrire</a>
+                  </li>
+                @endif
+
+              @endauth
+              
             </ul>
           </nav>
           <!-- Login & Signup Link end --> 
