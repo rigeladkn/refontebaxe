@@ -27,6 +27,7 @@ Route::get('/signup', [WelcomeController::class, 'signup'])->name('signup');
 Route::post('/signup', [AuthenticationController::class, 'register']);
 Route::get('/login', [WelcomeController::class, 'login'])->name('login');
 Route::post('/login', [AuthenticationController::class, 'login']);
+Route::post('/logout', [AuthenticationController::class, 'logout'])->name('logout');
 Route::get('/validateSms', [AuthenticationController::class, 'showSmsValidationForm'])->name('validateSmsCodeForm');
 
 //Offcial for code validation

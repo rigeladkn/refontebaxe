@@ -207,6 +207,12 @@ class AuthenticationController extends Controller
         // Return new client JSON
     }
 
+    public function logout()
+    {
+        auth()->user()->tokens()->delete();
+        return redirect()->away('/');
+    }
+
     
 
 
