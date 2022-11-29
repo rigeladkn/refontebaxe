@@ -24,10 +24,16 @@ Route::get('/', [WelcomeController::class, 'index']);
 Route::get('/contact', [WelcomeController::class, 'contact'])->name('contact');
 Route::get('/about', [WelcomeController::class, 'about'])->name('about');
 Route::get('/signup', [WelcomeController::class, 'signup'])->name('signup');
+Route::post('/signup', [AuthenticationController::class, 'register']);
 Route::get('/login', [WelcomeController::class, 'login'])->name('login');
 Route::post('/login', [AuthenticationController::class, 'login']);
-//
+Route::get('/validateSms', [AuthenticationController::class, 'showSmsValidationForm'])->name('validateSmsCodeForm');
 
+//Offcial for code validation
+Route::match(["get","post"],"/validation/code",[AuthenticationController::class,"validateCode"]);
+Route::post("/resendemailcode",[AuthenticationController::class,"resendEmailCode"]);
+Route::post("/resendsmscode",[AuthenticationController::class,"resendSmsCode"]);
+//
 
 //
 Route::get('/api/validation/{codeDetails}', [AuthenticationController::class, 'validateCode']);
@@ -36,20 +42,19 @@ Route::middleware(['auth', 'verified', 'ip.valid'])->group(function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
     Route::get('/transactions', [HomeController::class, 'transactions'])->name('transactions');
     //send
-Route::get('/send', [HomeController::class, 'send'])->name('send');
-Route::get('/send-confirm', [HomeController::class, 'sendConfirm'])->name('sendConfirm');
-Route::get('/send-status', [HomeController::class, 'sendStatus'])->name('sendStatus');
-Route::get('/send-status', [HomeController::class, 'sendStatus'])->name('sendStatus');
+    Route::get('/send', [HomeController::class, 'send'])->name('send');
+    Route::get('/send-confirm', [HomeController::class, 'sendConfirm'])->name('sendConfirm');
+    Route::get('/send-status', [HomeController::class, 'sendStatus'])->name('sendStatus');
 //deposit
-Route::get('/deposit', [HomeController::class, 'deposit'])->name('deposit');
+    Route::get('/deposit', [HomeController::class, 'deposit'])->name('deposit');
 
     // Route::get('dashboard', function () {
     //     return view('dashboard');
     // })->name('dashboard');
 
-        /**
-    * * Route concernant les clients
-    */
+    /**
+     * * Route concernant les clients
+     */
     Route::middleware(['can:is-client'])->prefix('client')->name('client.')->group(function () {
         Route::get('paiement-commercant', [PaiementCommercantController::class, 'formPaiement'])->name('paiement-commercant.form-paiement');
         Route::prefix('transfert')->name('transfert.')->group(function () {
@@ -75,27 +80,27 @@ Route::get('/deposit', [HomeController::class, 'deposit'])->name('deposit');
         });
 
         /* * Pour les paiements
-        Route::prefix('paiement')->name('paiement.')->group(function () {
-            Route::get('/', function () {
-                return view('client.paiement.index');
-            })->name('index');
+    Route::prefix('paiement')->name('paiement.')->group(function () {
+    Route::get('/', function () {
+    return view('client.paiement.index');
+    })->name('index');
 
-            Route::get('{paiement}', function ($paiement) {
-                if ($paiement == 'canal-plus') {
-                    $data = [
-                        'title' => 'Canal plus',
-                        'img' => asset('images/marchands/canal-plus.png'),
-                    ];
-                } elseif ($paiement == 'startimes') {
-                    $data = [
-                        'title' => 'StarTimes',
-                        'img' => asset('images/marchands/startimes.png'),
-                    ];
-                } else {
-                }
+    Route::get('{paiement}', function ($paiement) {
+    if ($paiement == 'canal-plus') {
+    $data = [
+    'title' => 'Canal plus',
+    'img' => asset('images/marchands/canal-plus.png'),
+    ];
+    } elseif ($paiement == 'startimes') {
+    $data = [
+    'title' => 'StarTimes',
+    'img' => asset('images/marchands/startimes.png'),
+    ];
+    } else {
+    }
 
-                return view('client.paiement.create', compact('paiement', 'data'));
-            })->name('create');
-        }); */
+    return view('client.paiement.create', compact('paiement', 'data'));
+    })->name('create');
+    }); */
     });
 });
