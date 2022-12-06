@@ -244,11 +244,6 @@
                               </li>
                           </ul>
                       </div>
-<<<<<<< HEAD
-                  </nav>
-                  <!-- Primary Navigation end -->
-              </div>
-=======
                     </li>
                   </ul>
                 </li> --}}
@@ -276,7 +271,6 @@
                     <a class="btn btn-primary d-none d-sm-block" href="{{route("signup")}}">S'inscrire</a>
                   </li>
                 @endif
->>>>>>> develop/rigel
 
               <div class="header-column justify-content-end">
                   <!-- Login & Signup Link
