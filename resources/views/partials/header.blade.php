@@ -19,13 +19,13 @@
                   <nav class="primary-menu navbar navbar-expand-lg">
                       <div id="header-nav" class="collapse navbar-collapse">
                           <ul class="navbar-nav mr-auto">
-                              @auth
-                                  <li><a href="{{ route('home') }}">Accueil</a></li>
-                              @endauth
+                            @auth
+                                <li><a href="{{ route('home') }}">Acceuil</a></li>
+                            @endauth
                               <li><a href="{{ route('about') }}">A propos</a></li>
                               <li><a href="{{ route('contact') }}">Contact</a></li>
                               <li><a href="{{ route('profile') }}">Mon profil</a></li>
-                              <li><a href="about-us.html">About Us</a></li>
+                              {{-- <li><a href="about-us.html">About Us</a></li>
                               <li><a href="fees.html">Fees</a></li>
                               <li><a href="help.html">Help</a></li>
                               <li class="dropdown"> <a class="dropdown-toggle" href="#">Features</a>
@@ -244,7 +244,7 @@
                                           </div>
                                       </li>
                                   </ul>
-                              </li>
+                              </li> --}}
                           </ul>
                       </div>
                   </nav>
