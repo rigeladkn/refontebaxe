@@ -1,9 +1,10 @@
 <?php
 
-use App\Http\Controllers\AuthenticationController;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\WelcomeController;
+use App\Http\Controllers\AuthenticationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,6 +49,9 @@ Route::middleware(['auth', 'verified', 'ip.valid'])->group(function () {
     Route::get('/send-status', [HomeController::class, 'sendStatus'])->name('sendStatus');
 //deposit
     Route::get('/deposit', [HomeController::class, 'deposit'])->name('deposit');
+//profil
+Route::get('/profil', [UserController::class, 'profile'])->name('profile');
+Route::get('/cardsAndAccounts', [UserController::class, 'cardsAndAccounts'])->name('cardsAndAccounts');
 
     // Route::get('dashboard', function () {
     //     return view('dashboard');

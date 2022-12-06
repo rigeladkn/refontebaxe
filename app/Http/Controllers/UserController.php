@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -162,5 +163,24 @@ class UserController extends Controller
 
             return redirect()->route('dashboard')->with('message', 'Votre mot de passe a été modifié avec succès.');
         }
+    }
+
+    public function profile(){
+        $data["user"] = "";
+        $data["flag"] = auth()->user()->pays->url_drapeau;
+        // dd(auth()->user());
+        // $solde = getUserSolde(auth()->user());
+        // $data["solde"] = format_number_french($solde ?? 0, 2);
+        $data['devise'] = auth()->user()->pays->symbole_monnaie;
+
+        return view('dashboard.profil.index', [
+            'user' => Client::where('user_id',auth()->user()->id)->first(),
+            "data" => $data
+        ]);
+    }
+
+
+    public function cardsAndAccounts(Request $request){
+        return view('dashboard.profil.cardsAndAccounts');
     }
 }

@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Client;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -166,7 +167,8 @@ class AuthenticationController extends Controller
         return redirect()->route("home");
     }
 
-    public function showSmsValidationForm(Request $request,$phone){
+    public function showSmsValidationForm(Request $request){
+        $phone = $request->get('phone');
         return view('smsForm')->with([
             "phone" => $phone
         ]);
@@ -210,6 +212,7 @@ class AuthenticationController extends Controller
     public function logout()
     {
         auth()->user()->tokens()->delete();
+        Auth::logout();
         return redirect()->away('/');
     }
 
