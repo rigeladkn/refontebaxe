@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Client;
 use Illuminate\Http\Request;
+use App\Models\UserPaymentMethod;
+use App\Models\UserPaymentAccount;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -130,18 +133,13 @@ class UserController extends Controller
         }
     }
 
-    public function change_password(Request $request)
+    public function updatePassword(Request $request)
     {
-        if ($request->method() == 'GET')
-        {
-            return view('auth.change_password');
-        }
-        elseif ($request->method() == 'POST')
-        {
+            // dd($request);
             $validator = Validator::make($request->all(), [
                 'old_password'              => ['required', 'string', 'min:8', 'max:255'],
-                'new_password'              => ['required', 'string', 'min:8', 'max:255'],
-                'new_password_confirmation' => ['required', 'string', 'min:8', 'max:255', 'same:new_password'],
+                'password'              => ['required', 'string', 'min:8', 'max:255'],
+                'password_confirmation' => ['required', 'string', 'min:8', 'max:255', 'same:password'],
             ], ['password_confirmation.same' => "Le mot de passe ne correspond pas."]);
 
             $validator->after(function ($validator) use ($request) {
@@ -157,10 +155,35 @@ class UserController extends Controller
             }
 
             auth()->user()->update([
-                'password' => Hash::make($request->new_password)
+                'password' => Hash::make($request->password)
             ]);
+            return redirect()->back()->with([
+                "success" => true,
+                "message" => 'Votre mot de passe a été modifié avec succès.'
+            ]);
+    }
 
-            return redirect()->route('dashboard')->with('message', 'Votre mot de passe a été modifié avec succès.');
-        }
+    public function profile(){
+        $data["user"] = "";
+        $data["flag"] = auth()->user()->pays->url_drapeau;
+        // dd(auth()->user());
+        // $solde = getUserSolde(auth()->user());
+        // $data["solde"] = format_number_french($solde ?? 0, 2);
+        $data['devise'] = auth()->user()->pays->symbole_monnaie;
+      
+        return view('dashboard.profil.index', [
+            'user' => Client::where('user_id',auth()->user()->id)->first(),
+            "data" => $data
+        ]);
+    }
+
+
+    public function cardsAndAccounts(Request $request){
+        $paymentMethods = UserPaymentMethod::where('user_id',auth()->user()->id)->get();
+        $bankAccounts = UserPaymentAccount::where('user_id',auth()->user()->id)->get();
+        return view('dashboard.profil.cardsAndAccounts',[
+            'paymentMethods' => $paymentMethods,
+            'bankAccounts' => $bankAccounts,
+        ]);
     }
 }

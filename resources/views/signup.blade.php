@@ -66,57 +66,57 @@
                         <div class="row">
                             <div class="col-11 col-lg-9 col-xl-8 mx-auto">
                                 <h3 class="font-weight-400 mb-4">S'inscrire</h3>
-                                <form id="loginForm" method="post">
+                                <form id="signupForm" method="post" action="/signup">
+                                    @csrf
                                     <div class="form-group">
                                         <label for="nom">Nom</label>
                                         <input type="text" class="form-control" id="nom" required
-                                            placeholder="Entrez votre nom">
+                                            placeholder="Entrez votre nom" name="nom">
                                     </div>
                                     <div class="form-group">
-                                        <label for="nom">Prénoms</label>
-                                        <input type="text" class="form-control" id="nom" required
+                                        <label for="prenoms">Prénoms</label>
+                                        <input type="text" class="form-control" name="prenoms" required
                                             placeholder="Entrez votre prénom">
                                     </div>
                                   <div class="row">
                                     <div class="form-group col-6">
-                                        <label for="nom">Code postal</label>
-                                        <input type="text" class="form-control" id="nom" required
+                                        <label for="code_postal">Code postal</label>
+                                        <input type="text" class="form-control" name="code_postal" required
                                             placeholder="Ex : 0000">
                                     </div>
                                     <div class="form-group col-6">
                                         <label for="ville">Ville</label>
-                                        <input type="text" class="form-control" id="ville" required
+                                        <input type="text" class="form-control" name="ville" required
                                             placeholder="Ville de résidence">
                                     </div>
                                   </div>
                                     <div class="form-group">
-                                        <label for="emailAddress">Email</label>
-                                        <input type="email" class="form-control" id="emailAddress" required
+                                        <label for="email">Email</label>
+                                        <input type="email" class="form-control" name="email" required
                                             placeholder="Entrez votre adresse email">
                                     </div>
                                     <div class="row">
-
                                         <div class="form-group col-6">
-                                            <label for="nom">Indicatif</label>
-                                            <input type="text" class="form-control" id="nom" required
+                                            <label for="indicatif">Indicatif</label>
+                                            <input type="text" class="form-control" name="indicatif" required
                                                 placeholder="Ex : +33">
                                         </div>
                                         <div class="form-group col-6">
-                                            <label for="nom">Téléphone</label>
-                                            <input type="text" class="form-control" id="nom" required
+                                            <label for="telephone">Téléphone</label>
+                                            <input type="text" class="form-control" name="telephone" required
                                                 placeholder="Entrez votre numéro de téléphone (Ex : 00000000)">
                                         </div>
                                     </div>
                                  
                                     <div class="form-group">
-                                        <label for="loginPassword">Mot de passe</label>
-                                        <input type="password" class="form-control" id="password" required
-                                            placeholder="Entrez un mot de passe">
+                                        <label for="password">Mot de passe</label>
+                                        <input type="password" class="form-control" name="password" required
+                                            placeholder="Entrez un mot de passe" minlength="8">
                                     </div>
                                     <div class="form-group">
-                                        <label for="loginPassword">Confirmez votre mot de passe</label>
-                                        <input type="password" class="form-control" id="password" required
-                                            placeholder="Tapez à nouveau le mot de passe">
+                                        <label for="password_confirmation">Confirmez votre mot de passe</label>
+                                        <input type="password" class="form-control" name="password_confirmation" required
+                                            placeholder="Tapez à nouveau le mot de passe" minlength="8">
                                     </div>
                                     <button class="btn btn-primary btn-block my-4" type="submit">S'inscrire</button>
                                 </form>

@@ -1,7 +1,5 @@
 @extends('layouts.app')
-
 @section('title',"Dashboard")
-
 @section('content')
 
 <div class="container mt-4">
@@ -126,7 +124,7 @@
                 </div>
               </div>
             @empty
-              Aucune donnée
+              <div class="my-4 mx-4">Aucune donnée</div> 
             @endforelse
   
   

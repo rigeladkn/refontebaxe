@@ -13,7 +13,6 @@ class HomeController extends Controller
     {
         // dd($request);
         // dd($this->user);
-
         $data["user"] = "";
         $data["flag"] = auth()->user()->pays->url_drapeau;
         $solde = getUserSolde(auth()->user());

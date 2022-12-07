@@ -33,9 +33,6 @@ if (! function_exists('active_route'))
     }
 }
 
-
-
-
 // Ours helpers
 if (! function_exists('getUserById'))
 {
