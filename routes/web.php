@@ -4,7 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WelcomeController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserPaymentMethodController;
+use App\Http\Controllers\UserPaymentAccountController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,24 +44,25 @@ Route::get('/api/validation/{codeDetails}', [AuthenticationController::class, 'v
 Route::middleware(['auth', 'verified', 'ip.valid'])->group(function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
     Route::get('/transactions', [HomeController::class, 'transactions'])->name('transactions');
-    //send
-    Route::get('/send', [HomeController::class, 'send'])->name('send');
-    Route::get('/send-confirm', [HomeController::class, 'sendConfirm'])->name('sendConfirm');
-    Route::get('/send-status', [HomeController::class, 'sendStatus'])->name('sendStatus');
-//deposit
-    Route::get('/deposit', [HomeController::class, 'deposit'])->name('deposit');
-//profil
-    Route::get('/profil', [UserController::class, 'profile'])->name('profile');
-    Route::get('/cardsAndAccounts', [UserController::class, 'cardsAndAccounts'])->name('cardsAndAccounts');
-//ADD PAYMENT CARDS
-    Route::post('/addCard', [UserPaymentMethodController::class, 'addPaymentCard'])->name('addPaymentCard');
-    Route::post('/deletePayMeth', [UserPaymentMethodController::class, 'deletePaymentMethod'])->name('deletePaymentMethod');
-//ADD BANK ACCOUNT NUMBER
-Route::post('/addBankAccount', [UserPaymentAccountController::class, 'addBankAccount'])->name('addBankAccount');
-Route::post('/deleteBankAccount', [UserPaymentAccountController::class, 'deleteBankAccount'])->name('deleteBankAccount');
-//UPDATE PASSWORD
-Route::post('/updatePassword', [UserController::class, 'updatePassword'])->name('updatePassword');
-    
+    // //send
+    // Route::get('/send', [HomeController::class, 'send'])->name('send');
+    // Route::get('/send-confirm', [HomeController::class, 'sendConfirm'])->name('sendConfirm');
+    // Route::get('/send-status', [HomeController::class, 'sendStatus'])->name('sendStatus');
+
+    //deposit
+        Route::get('/deposit', [HomeController::class, 'deposit'])->name('deposit');
+    //profil
+        Route::get('/profil', [UserController::class, 'profile'])->name('profile');
+        Route::get('/cardsAndAccounts', [UserController::class, 'cardsAndAccounts'])->name('cardsAndAccounts');
+    //ADD PAYMENT CARDS
+        Route::post('/addCard', [UserPaymentMethodController::class, 'addPaymentCard'])->name('addPaymentCard');
+        Route::post('/deletePayMeth', [UserPaymentMethodController::class, 'deletePaymentMethod'])->name('deletePaymentMethod');
+    //ADD BANK ACCOUNT NUMBER
+    Route::post('/addBankAccount', [UserPaymentAccountController::class, 'addBankAccount'])->name('addBankAccount');
+    Route::post('/deleteBankAccount', [UserPaymentAccountController::class, 'deleteBankAccount'])->name('deleteBankAccount');
+    //UPDATE PASSWORD
+    Route::post('/updatePassword', [UserController::class, 'updatePassword'])->name('updatePassword');
+        
     //deposit
     Route::get('/deposit', [HomeController::class, 'deposit'])->name('deposit');
 
