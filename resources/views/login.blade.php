@@ -45,8 +45,8 @@
                             <div class="row no-gutters">
                                 <div class="col-10 col-lg-9 mx-auto">
                                     <div class="logo mt-5 mb-5 mb-md-0"> <a class="d-flex" href="index.html"
-                                            title="Baxe"><img src="{{ asset('images/logo-light.png') }}"
-                                                alt="Payyed"></a> </div>
+                                            title="Baxe"><img src="{{ asset('images/logo-light.png') }}" style="height: 10%; width : 100%"
+                                                alt="Lisocache"></a> </div>
                                 </div>
                             </div>
                             <div class="row no-gutters my-auto">

@@ -6,7 +6,7 @@
               <div class="header-column justify-content-start">
                   <!-- Logo
           ============================= -->
-                  <div class="logo"> <a class="d-flex" href="/" title="Baxe logo"><img
+                  <div class="logo mr-2"> <a class="d-flex" href="/" title="Lisocache logo" style="height: 85px; width : 150px"><img
                               src="{{ asset('images/logo.png') }}" alt="Baxe" /></a> </div>
                   <!-- Logo end -->
                   <!-- Collapse Button
@@ -24,7 +24,9 @@
                             @endauth
                               <li><a href="{{ route('about') }}">A propos</a></li>
                               <li><a href="{{ route('contact') }}">Contact</a></li>
+                              @auth
                               <li><a href="{{ route('profile') }}">Mon profil</a></li>
+                              @endauth
                               {{-- <li><a href="about-us.html">About Us</a></li>
                               <li><a href="fees.html">Fees</a></li>
                               <li><a href="help.html">Help</a></li>

@@ -15,6 +15,15 @@ class CreateUserPaymentMethodsTable extends Migration
     {
         Schema::create('user_payment_methods', function (Blueprint $table) {
             $table->id();
+            $table->string('type');
+            $table->char('number',16);
+            $table->date('expirationDate');
+            $table->char('CVV',3);
+            $table->string('holder');
+            $table->foreignId('user_id')->constrained("users")
+            ->onUpdate("cascade")
+            ->onDelete("cascade");
+            $table->boolean('status')->default(true);
             $table->timestamps();
         });
     }

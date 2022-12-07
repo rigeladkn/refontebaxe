@@ -54,7 +54,6 @@
                 <div class="bg-light shadow-sm rounded text-center p-3 mb-4">
                     <div class="text-17 text-light my-3"><i class="fas fa-comments"></i></div>
                     <h3 class="text-3 font-weight-400 my-4">Besoin d'aide ?</h3>
-                    <p class="text-muted opacity-8 mb-4">Désirez-vous modifier plus d'attributs sur votre profil ?</p>
                     <a href="#" class="btn btn-primary btn-block btn-sm">Nous contacter</a>
                 </div>
                 <!-- Need Help? End -->
@@ -68,9 +67,14 @@
                 <!-- Personal Details
                     ============================================= -->
                 <div class="bg-light shadow-sm rounded p-4 mb-4">
-                    <h3 class="text-5 font-weight-400 mb-3">Informations personnelles<a href="#edit-personal-details"
+                    <h3 class="text-5 font-weight-400 mb-3">Informations personnelles
+                        @can('is-admin')
+                        <a href="#edit-personal-details"
                             data-toggle="modal" class="float-right text-1 text-uppercase text-muted btn-link"><i
-                                class="fas fa-edit mr-1"></i>Edit</a></h3>
+                                class="fas fa-edit mr-1"></i>Edit</a>
+                        @endcan
+
+                    </h3>
                     <div class="row">
                         <p class="col-sm-3 text-muted text-sm-right mb-0 mb-sm-3">Nom</p>
                         <p class="col-sm-9">{{ $user->prenoms }} {{ $user->nom }}</p>
@@ -84,9 +88,9 @@
                         <p class="col-sm-9">{{ $user->ville }}</p>
                     </div>
                 </div>
+                @can('is-admin')
                 <!-- Edit Details Modal
                     ================================== -->
-
                 <div id="edit-personal-details" class="modal fade " role="dialog" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered" role="document">
                         <div class="modal-content">
@@ -493,13 +497,19 @@
                     </div>
                 </div>
                 <!-- Personal Details End -->
+                @endcan
 
                 <!-- Account Settings
                     ============================================= -->
                 <div class="bg-light shadow-sm rounded p-4 mb-4">
-                    <h3 class="text-5 font-weight-400 mb-3">Compte<a href="#edit-account-settings" data-toggle="modal"
+                    <h3 class="text-5 font-weight-400 mb-3">Compte
+                        @can('is-admin')
+                        <a href="#edit-account-settings" data-toggle="modal"
                             class="float-right text-1 text-uppercase text-muted btn-link"><i
-                                class="fas fa-edit mr-1"></i>Edit</a></h3>
+                                class="fas fa-edit mr-1"></i>Edit</a>
+                        @endcan
+                        
+                            </h3>
                                 <div class="row">
                                     <p class="col-sm-3 text-muted text-sm-right mb-0 mb-sm-3">Devise</p>
                                     <p class="col-sm-9">{{$data["devise"]}}</p>
@@ -670,9 +680,13 @@
                 <!-- Email Addresses
                     ============================================= -->
                 <div class="bg-light shadow-sm rounded p-4 mb-4">
-                    <h3 class="text-5 font-weight-400 mb-3">Adresse Email<a href="#edit-email" data-toggle="modal"
+                    <h3 class="text-5 font-weight-400 mb-3">Adresse Email
+                        @can('is-admin')
+                        <a href="#edit-email" data-toggle="modal"
                             class="float-right text-1 text-uppercase text-muted btn-link"><i
-                                class="fas fa-edit mr-1"></i>Edit</a></h3>
+                                class="fas fa-edit mr-1"></i>Edit</a>
+                                @endcan
+                            </h3>
                     <div class="row">
                         <p class="col-sm-3 text-muted text-sm-right mb-0 mb-sm-3">Email
                             {{-- <span
@@ -718,9 +732,13 @@
                 <!-- Phone
                     ============================================= -->
                 <div class="bg-light shadow-sm rounded p-4 mb-4">
-                    <h3 class="text-5 font-weight-400 mb-3">Contact<a href="#edit-phone" data-toggle="modal"
+                    <h3 class="text-5 font-weight-400 mb-3">Contact
+                        @can('is-admin')
+                        <a href="#edit-phone" data-toggle="modal"
                             class="float-right text-1 text-uppercase text-muted btn-link"><i
-                                class="fas fa-edit mr-1"></i>Edit</a></h3>
+                                class="fas fa-edit mr-1"></i>Edit</a>
+                                @endcan
+                            </h3>
                     <div class="row">
                         <p class="col-sm-3 text-muted text-sm-right mb-0 mb-sm-3">Téléphone
                             {{-- <span
@@ -766,9 +784,14 @@
                 <!-- Security
                     ============================================= -->
                 <div class="bg-light shadow-sm rounded p-4">
-                    <h3 class="text-5 font-weight-400 mb-3">Sécurité <a href="#change-password" data-toggle="modal"
+                    <h3 class="text-5 font-weight-400 mb-3">Sécurité 
+                       
+                        <a href="#change-password" data-toggle="modal"
                             class="float-right text-1 text-uppercase text-muted btn-link"><i
-                                class="fas fa-edit mr-1"></i>Edit</a></h3>
+                                class="fas fa-edit mr-1"></i>Modifier
+                            </a>
+                     
+                        </h3>
                     <div class="row">
                         <p class="col-sm-3 text-muted text-sm-right mb-0 mb-sm-3">
                             <label class="col-form-label">Password</label>
@@ -779,41 +802,43 @@
                         </p>
                     </div>
                 </div>
+              
                 <!-- Edit Details Modal
                     ================================== -->
                 <div id="change-password" class="modal fade " role="dialog" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title font-weight-400">Change Password</h5>
+                                <h5 class="modal-title font-weight-400">Changer de mot de passe</h5>
                                 <button type="button" class="close font-weight-400" data-dismiss="modal"
                                     aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
                             </div>
                             <div class="modal-body p-4">
-                                <form id="changePassword" method="post">
+                                <form id="changePassword" method="post" action="{{route('updatePassword')}}">
+                                    @csrf
                                     <div class="form-group">
-                                        <label for="existingPassword">Confirm Current Password</label>
-                                        <input type="text" class="form-control" data-bv-field="existingpassword"
-                                            id="existingPassword" required placeholder="Enter Current Password">
+                                        <label for="old_password">Mot de passe actuel</label>
+                                        <input type="password" class="form-control" data-bv-field="old_password"
+                                            name="old_password" required placeholder="Entrez le mot de passe actuel">
                                     </div>
                                     <div class="form-group">
-                                        <label for="newPassword">New Password</label>
-                                        <input type="text" class="form-control" data-bv-field="newpassword"
-                                            id="newPassword" required placeholder="Enter New Password">
+                                        <label for="newPassword">Nouveau mot de passe</label>
+                                        <input type="password" class="form-control" data-bv-field="password"
+                                            name="password" required placeholder="Nouveau mot de passe">
                                     </div>
                                     <div class="form-group">
-                                        <label for="confirmPassword">Confirm New Password</label>
-                                        <input type="text" class="form-control" data-bv-field="confirmgpassword"
-                                            id="confirmPassword" required placeholder="Enter Confirm New Password">
+                                        <label for="password_confirmation">Confirmez le nouveau mot de passe</label>
+                                        <input type="password" class="form-control" data-bv-field="password_confirmation"
+                                            name="password_confirmation" required placeholder="Confirmez le nouveau mot de passe">
                                     </div>
-                                    <button class="btn btn-primary btn-block mt-4" type="submit">Update Password</button>
+                                    <button class="btn btn-primary btn-block mt-4" type="submit">Mettre à jour</button>
                                 </form>
                             </div>
                         </div>
                     </div>
                 </div>
                 <!-- Security End -->
-
+             
             </div>
             <!-- Middle Panel End -->
         </div>

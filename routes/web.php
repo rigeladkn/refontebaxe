@@ -5,6 +5,8 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\AuthenticationController;
+use App\Http\Controllers\UserPaymentMethodController;
+use App\Http\Controllers\UserPaymentAccountController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,9 +34,9 @@ Route::post('/logout', [AuthenticationController::class, 'logout'])->name('logou
 Route::get('/validateSms', [AuthenticationController::class, 'showSmsValidationForm'])->name('validateSmsCodeForm');
 
 //Offcial for code validation
-Route::match(["get","post"],"/validation/code",[AuthenticationController::class,"validateCode"]);
-Route::post("/resendemailcode",[AuthenticationController::class,"resendEmailCode"]);
-Route::post("/resendsmscode",[AuthenticationController::class,"resendSmsCode"]);
+Route::match(["get", "post"], "/validation/code", [AuthenticationController::class, "validateCode"]);
+Route::post("/resendemailcode", [AuthenticationController::class, "resendEmailCode"]);
+Route::post("/resendsmscode", [AuthenticationController::class, "resendSmsCode"]);
 //
 
 //
@@ -50,12 +52,17 @@ Route::middleware(['auth', 'verified', 'ip.valid'])->group(function () {
 //deposit
     Route::get('/deposit', [HomeController::class, 'deposit'])->name('deposit');
 //profil
-Route::get('/profil', [UserController::class, 'profile'])->name('profile');
-Route::get('/cardsAndAccounts', [UserController::class, 'cardsAndAccounts'])->name('cardsAndAccounts');
+    Route::get('/profil', [UserController::class, 'profile'])->name('profile');
+    Route::get('/cardsAndAccounts', [UserController::class, 'cardsAndAccounts'])->name('cardsAndAccounts');
+//ADD PAYMENT CARDS
+    Route::post('/addCard', [UserPaymentMethodController::class, 'addPaymentCard'])->name('addPaymentCard');
+    Route::post('/deletePayMeth', [UserPaymentMethodController::class, 'deletePaymentMethod'])->name('deletePaymentMethod');
+//ADD BANK ACCOUNT NUMBER
+Route::post('/addBankAccount', [UserPaymentAccountController::class, 'addBankAccount'])->name('addBankAccount');
+Route::post('/deleteBankAccount', [UserPaymentAccountController::class, 'deleteBankAccount'])->name('deleteBankAccount');
+//UPDATE PASSWORD
+Route::post('/updatePassword', [UserController::class, 'updatePassword'])->name('updatePassword');
 
-    // Route::get('dashboard', function () {
-    //     return view('dashboard');
-    // })->name('dashboard');
 
     /**
      * * Route concernant les clients
