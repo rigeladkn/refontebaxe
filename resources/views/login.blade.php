@@ -44,8 +44,8 @@
                         <div class="hero-content mx-auto w-100 h-100 d-flex flex-column">
                             <div class="row no-gutters">
                                 <div class="col-10 col-lg-9 mx-auto">
-                                    <div class="logo mt-5 mb-5 mb-md-0"> <a class="d-flex" href="index.html"
-                                            title="Baxe"><img src="{{ asset('images/logo-light.png') }}" style="height: 10%; width : 100%"
+                                    <div class="logo mt-1 mb-5 mb-md-0"> <a class="d-flex" href="index.html"
+                                            title="Lisocache"><img src="{{ asset('images/logo.png') }}" style="height: 10%; width : 100%"
                                                 alt="Lisocache"></a> </div>
                                 </div>
                             </div>
