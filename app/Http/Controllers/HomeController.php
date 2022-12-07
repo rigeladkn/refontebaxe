@@ -38,7 +38,7 @@ class HomeController extends Controller
 
         $transactionsContent = $repository->getHistories(auth()->user(), "dashboard")['transactionsContent'];
         $transactions = $repository->getHistories(auth()->user(), "dashboard")['transactions'];
-    //    dd($transactionsContent, $transactions);
+        //dd($transactionsContent, $transactions);
         return view('dashboard.index', [
             "data" => $data,
             "account_status" => $account_status,

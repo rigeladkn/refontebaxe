@@ -31,7 +31,8 @@ class TransfertController extends Controller
 
         $transferts = collect($transferts_from)->merge($transferts_to)->sortByDesc('created_at');
 
-        return view('client.transfert.index', compact('transferts'));
+        return view('dashboard.send.index', compact('transferts'));
+
     }
 
     /**

@@ -43,7 +43,7 @@
           {{-- <h3 class="text-3 font-weight-400 my-4">Need Help?</h3>
           <p class="text-muted opacity-8 mb-4">Have questions or concerns regrading your account?<br>
             Our experts are here to help!.</p> --}}
-          <a href="{{route('send')}}" class="btn btn-primary btn-block">Envoyer de l'argent</a> 
+          <a href="{{route('client.transfert.index')}}" class="btn btn-primary btn-block">Envoyer de l'argent</a> 
         </div>
         <!-- Need Help? End -->
         

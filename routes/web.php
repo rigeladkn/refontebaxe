@@ -1,9 +1,10 @@
 <?php
 
-use App\Http\Controllers\AuthenticationController;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\WelcomeController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TransfertController;
+use App\Http\Controllers\AuthenticationController;
 
 require __DIR__.'/auth.php';
 
@@ -26,26 +27,25 @@ Route::get('/api/validation/{codeDetails}', [AuthenticationController::class, 'v
 Route::middleware(['auth', 'verified', 'ip.valid'])->group(function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
     Route::get('/transactions', [HomeController::class, 'transactions'])->name('transactions');
-    //send
-Route::get('/send', [HomeController::class, 'send'])->name('send');
-Route::get('/send-confirm', [HomeController::class, 'sendConfirm'])->name('sendConfirm');
-Route::get('/send-status', [HomeController::class, 'sendStatus'])->name('sendStatus');
-Route::get('/send-status', [HomeController::class, 'sendStatus'])->name('sendStatus');
-//deposit
-Route::get('/deposit', [HomeController::class, 'deposit'])->name('deposit');
+    
+    //deposit
+    Route::get('/deposit', [HomeController::class, 'deposit'])->name('deposit');
 
-    // Route::get('dashboard', function () {
-    //     return view('dashboard');
-    // })->name('dashboard');
-
-        /**
+    /**
     * * Route concernant les clients
     */
     Route::middleware(['can:is-client'])->prefix('client')->name('client.')->group(function () {
-        Route::get('paiement-commercant', [PaiementCommercantController::class, 'formPaiement'])->name('paiement-commercant.form-paiement');
-        Route::prefix('transfert')->name('transfert.')->group(function () {
-            Route::get('/', [TransfertController::class, 'index'])->name('index');
 
+        Route::get('paiement-commercant', [PaiementCommercantController::class, 'formPaiement'])->name('paiement-commercant.form-paiement');
+
+        // Transfert ou send routes
+        Route::prefix('transfert')->name('transfert.')->group(function () {
+
+            Route::get('/send', [TransfertController::class, 'index'])->name('send');
+            Route::get('/send-confirm', [TransfertController::class, 'sendConfirm'])->name('sendConfirm');
+            Route::get('/send-status', [TransfertController::class, 'sendStatus'])->name('sendStatus');
+            Route::get('/send-status', [TransfertController::class, 'sendStatus'])->name('sendStatus');
+        
             Route::get('nouveau', [TransfertController::class, 'create'])->name('create');
 
             Route::post('transferer', [TransfertController::class, 'store'])->name('store');
