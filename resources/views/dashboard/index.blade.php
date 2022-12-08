@@ -69,12 +69,12 @@
             </div>
             <div class="col-sm-6 col-md-3 mb-4 mb-sm-0">
               <div class="border rounded p-3 text-center"> <span class="d-block text-10 text-light mt-2 mb-3"><i class="fas fa-credit-card"></i></span> <span class="text-5 d-block {{$account_status["hasACard"] ? 'text-success' : 'text-danger'}} mt-4 mb-3"><i class="fas {{$account_status["hasACard"] ? 'fa-check-circle' : 'fa-times-circle'}}"></i></span>
-                <p class="mb-0"><a class="btn-link stretched-link" href="">Ajouter une carte</a></p>
+                <p class="mb-0"><a class="btn-link stretched-link" href="{{route('cardsAndAccounts')}}">Ajouter une carte</a></p>
               </div>
             </div>
             <div class="col-sm-6 col-md-3">
               <div class="border rounded p-3 text-center"> <span class="d-block text-10 text-light mt-2 mb-3"><i class="fas fa-university"></i></span> <span class="text-5 d-block {{$account_status["hasAnAccount"] ? 'text-success' : 'text-danger'}} mt-4 mb-3"><i class="fas {{$account_status["hasAnAccount"] ? 'fa-check-circle' : 'fa-times-circle'}}"></i></span>
-                <p class="mb-0"><a class="btn-link stretched-link" href="">Ajouter un compte</a></p>
+                <p class="mb-0"><a class="btn-link stretched-link" href="{{route('cardsAndAccounts')}}">Ajouter un compte</a></p>
               </div>
             </div>
           </div>

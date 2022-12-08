@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Repositories\SoldeRepository;
+use App\Models\UserPaymentMethod;
+use App\Models\UserPaymentAccount;
 use Illuminate\Support\Facades\Auth;
+use App\Repositories\SoldeRepository;
 
 class HomeController extends Controller
 {
@@ -18,13 +20,15 @@ class HomeController extends Controller
         $solde = getUserSolde(auth()->user());
         $data["solde"] = format_number_french($solde ?? 0, 2);
         $data['devise'] = auth()->user()->pays->symbole_monnaie;
+        $hasAnAccount = count(UserPaymentAccount::where('user_id',auth()->user()->id)->get()) > 0 ? 1 : 0;
+        $hasACard = count(UserPaymentMethod::where('user_id',auth()->user()->id)->get()) > 0 ? 1 : 0;
         // dd(auth()->user());
         // User::where('email',auth()->user);
         $account_status = [
             'isPhoneVerified' => auth()->user()->is_phone_valid,
             'isEmailVerified'  => auth()->user()->is_email_valid,
-            'hasAnAccount' => 0,
-            'hasACard' => 0,
+            'hasAnAccount' => $hasAnAccount,
+            'hasACard' => $hasACard ,
         ];
         $percentage = 0;
         foreach ($account_status as $key => $value) {

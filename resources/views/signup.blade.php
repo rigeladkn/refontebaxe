@@ -43,15 +43,15 @@
                         <div class="hero-content mx-auto w-100 h-100 d-flex flex-column">
                             <div class="row  no-gutters">
                                 <div class="col-10 col-lg-9 mx-auto">
-                                    <div class="logo mt-5 mb-5 mb-md-0"> <a class="d-flex" href="index.html"
-                                            title="Baxe"><img src="images/logo-light.png"
-                                                alt="Baxe"></a> </div>
+                                    <div class="logo mt-1 mb-1 mb-md-0"> <a class="d-flex" href="/"
+                                        title="Lisocash"><img src="{{ asset('images/logo.png') }}" style="height: 10%; width : 100%"
+                                            alt="Lisocash"></a> </div>
                                 </div>
                             </div>
-                            <div class="row my-auto">
-                                <div class="col-10 col-lg-9 mx-auto">
+                            <div class="row my-5">
+                                <div class="col-10 col-lg-9 mx-auto my-5">
                                     <h1 class="text-11 text-white mb-4">S'enrôler !</h1>
-                                    <p class="text-4 text-white line-height-4 mb-5">Chaque jour, Baxe rend plus de 1000
+                                    <p class="text-4 text-white line-height-4 mb-5">Chaque jour, Lisocash rend plus de 1000
                                         utilisateurs heureux</p>
                                 </div>
                             </div>
