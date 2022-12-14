@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Traits\TauxTrait;
 use App\Http\Traits\FraisTrait;
+use Illuminate\Validation\Rule;
 use App\Http\Traits\SoldesTrait;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
@@ -56,6 +57,170 @@ class TransfertController extends Controller
     * @param  \Illuminate\Http\Request  $request
     * @return \Illuminate\Http\Response
     */
+
+    public function store2(Request $request){
+
+        $allowedPaymentMethods = ['Lisocash', 'Carte','Orange','MTN','Airtel'];
+
+        $request->merge([
+            'destinataire' => $request->pays.$request->destinataire,
+        ]);
+
+        $regles = [
+            "pays"            => ['required', 'exists:pays,indicatif'],
+            "destinataire"    => ['required', 'exists:users,telephone'],
+            "montant"         => ['required', 'numeric', 'integer', 'min:1'],
+            "paymentMethod"   => ['required', Rule::in($allowedPaymentMethods),],
+            "receptionMethod"   => ['required', Rule::in($allowedPaymentMethods),],
+        ];
+
+        $messages = [
+            'destinataire.exists' => 'Le destinataire n\'est pas un client '.env('APP_NAME'),
+        ];
+
+        $destinataire = User::where('telephone', $request->destinataire)->first();
+
+        $validator = Validator::make($request->all(), $regles, $messages);
+
+        $validator->after(function ($validator) use ($request, $destinataire) {
+
+            if ($destinataire)
+            {
+                if (auth()->id() == $destinataire->id)
+                {
+                    $validator->errors()->add('destinataire', 'Impossible de faire le transfert vers cette destination.');
+                }
+
+                // On check le type de transfert lorsqu'il n'est pas entrain de demandé le resumé
+                if (!$request->resume)
+                {
+                    if (!in_array($request->paymentMethod,$allowedPaymentMethods))
+                    {
+                        $validator->errors()->add('paymentMethod', 'Méthode de paiement invalide');
+                    }
+
+                    if ($request->paymentMethod == 'Carte')
+                    {
+                        if (!$request->paymentMethodId)
+                        {
+                            $validator->errors()->add('paymentMethodId', 'Impossible de faire cette transaction sans carte de paiement');
+                        }
+                    }
+                }
+
+                /**
+                * *S'il a les fonds suffisant
+                */
+                // On check s'il a solde s'il est entrain de faire un transfert par solde (avant ajout des frais)
+                if ($request->paymentMethod == 'Lisocash')
+                {
+                    if ($this->not_required_solde($request->montant) || $this->not_required_solde($request->montant))
+                    {
+                        $validator->errors()->add('montant', 'Solde insuffisant');
+                    }  
+                }
+                // if (!Hash::check($request->code_validation, auth()->user()->code_validation))
+                // {
+                //     $validator->errors()->add('code_validation', 'Code de validation invalide');
+                // }
+            }
+        });
+
+        if ($validator->fails())
+        {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $transfert_par_solde = true;
+
+        $frais = $this->frais_get_frais_transfert(Transfert::class, auth()->user(), $destinataire);
+
+        $montant_frais = $frais->frais_fixe ?: convertir_un_pourcentage_en_nombre($frais->frais_pourcentage, $request->montant);
+
+        $taux_to = $this->taux_fetch_one(auth()->user()->pays->symbole_monnaie, $destinataire->pays->symbole_monnaie);
+
+        $montant_envoyer = $request->montant;
+        
+        //check if could send money with fees
+        if( $this->not_required_solde($montant_envoyer + $montant_frais)){
+            $validator->errors()->add('montant', 'Solde insuffisant');
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        // Montant que le destinataire recevra en sa monnaie
+        $montant_recu = $this->taux_convert(auth()->user()->pays->symbole_monnaie, $destinataire->pays->symbole_monnaie, $request->montant);
+
+        if ($this->user_europe_to_user_afrique(auth()->user()->pays->continent, $destinataire->pays->continent))
+        {
+            sscanf($montant_recu, '%d%f', $int, $float);
+
+            // TODO BAXE recoit le $float
+
+            $montant_recu = $int + 1;
+        }
+
+        if ($request->resume == 1)
+        {//Review here
+            return response([
+                'data' => [
+                    'destinataire'            => $destinataire->noms(),
+                    'frais'                   => round($montant_frais, 2),
+                    'montant_total_transfert' => round($montant_envoyer + $montant_frais, 2),
+                    'destinataire_recoit'     => $montant_recu,
+                    'monnaie_expediteur'      => auth()->user()->pays->symbole_monnaie,
+                    'monnaie_destinataire'    => $destinataire->pays->symbole_monnaie,
+                ]
+            ], 200);
+        }
+
+        if ($request->paymentMethod == 'Carte')
+        {
+            $transfert_par_solde = false;
+        }
+
+        // dd($request->montant);
+
+        if ($transfert_par_solde == false)
+        {
+            try
+            {
+                $frais_supplementaires = convertir_un_pourcentage_en_nombre(2, $request->montant);
+
+                if (auth()->user()->pays->continent != 'Africa')
+                {
+                    $montant = $montant_envoyer * 100;
+                    $frais_supplementaires = $frais_supplementaires * 100;
+                }
+
+                $montant = $montant + $frais_supplementaires;
+
+                $montant = round($montant, 2);
+
+                $stripeCharge = $request->user()->charge($montant, $request->paymentMethodId, [
+                    'currency' => auth()->user()->pays->symbole_monnaie,
+                    'description' => 'Transfert de '.format_number_french($request->montant).' '.auth()->user()->pays->symbole_monnaie.' à '.$destinataire->noms(),
+                    'receipt_email' => $request->user()->email
+                ]);
+            }
+            catch (\Throwable $th)
+            {
+                // dd($th);
+                return response([
+                    'message' => "Transfert échoué. Veuillez réessayer plus tard."
+                ], 403);
+            }
+        }
+
+        $this->transfert(auth()->user(), $destinataire, $montant_envoyer, $montant_frais, $taux_to, $montant_recu, 1, $transfert_par_solde,$request->paymentMethod,$request->receptionMethod);
+
+        $message = 'Vous venez d’envoyer '.format_number_french($request->montant, 2).' '.auth()->user()->pays->symbole_monnaie.' à '.$destinataire->noms().' via '.env('APP_NAME').'. Votre nouveau  solde : '.format_number_french(auth()->user()->soldes->last()->actuel).' '.auth()->user()->pays->symbole_monnaie.'. '.env('APP_NAME').' vous remercie pour votre fidélité.';
+
+        return response()->json([
+            'message' => $message,
+            'solde' => $this->get_solde()
+        ], 200);
+    }
+    
     public function store(Request $request)
     {
         $request->merge([
@@ -70,7 +235,7 @@ class TransfertController extends Controller
         ];
 
         $messages = [
-            'destinataire.exists' => 'Le destinataire n\'est pas client '.env('APP_NAME'),
+            'destinataire.exists' => 'Le destinataire n\'est pas un client '.env('APP_NAME'),
         ];
 
         $destinataire = User::where('telephone', $request->destinataire)->first();
@@ -180,16 +345,16 @@ class TransfertController extends Controller
         {
             try
             {
-                $frais_suppelementaire = convertir_un_pourcentage_en_nombre(2, $request->montant);
+                $frais_supplementaires = convertir_un_pourcentage_en_nombre(2, $request->montant);
 
                 if (auth()->user()->pays->continent != 'Africa')
                 {
                     $montant = $montant_envoyer * 100;
 
-                    $frais_suppelementaire = $frais_suppelementaire * 100;
+                    $frais_supplementaires = $frais_supplementaires * 100;
                 }
 
-                $montant = $montant + $frais_suppelementaire;
+                $montant = $montant + $frais_supplementaires;
 
                 $montant = round($montant, 2);
 
@@ -266,8 +431,32 @@ class TransfertController extends Controller
      * @param  mixed $transfert_par_solde
      * @return void
      */
-    protected function transfert(User $user_from, User $user_to, $montant_envoyer, $frais, $taux_to, $montant_recu, $taux_from = 1, $transfert_par_solde = true)
+    protected function transfert(User $user_from, User $user_to, $montant_envoyer, $frais, $taux_to, $montant_recu, $taux_from = 1, $transfert_par_solde = true,$paymentMethod,$receptionMethod)
     {
+
+        //Make Transfert
+        switch ($receptionMethod) {
+            case 'Lisocash':
+                # code...
+                break;
+            
+            default:
+                # code...
+                break;
+        }
+        //Update Soldes
+        switch ($paymentMethod) {
+            case 'Lisocash':
+                # code...
+                break;
+            
+            default:
+                # code...
+                break;
+        }
+
+
+
         $transfert = Transfert::create([
             'reference'    => Str::random(10),
             'user_id_from' => $user_from->id,

@@ -35,7 +35,7 @@ trait FraisTrait
                 return $user_from->pays->symbole_monnaie == $item->from;
             }
 
-            // Si cla persinne qui envoie est en france et si c'est un transfert nati.ou inter.
+            // Si la personne qui envoie est en france et si c'est un transfert nati.ou inter.
             if ($user_from->pays->code == 'FR' && $item->to == $to && $operation == Transfert::class)
             {
                 return $user_from->pays->code == $item->from;

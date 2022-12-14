@@ -55,7 +55,7 @@ Route::post('login', [AuthenticationController::class, 'login'])->name("apilogin
 Route::post('password/forget-password', [ForgetPasswordController::class, 'sendResetLinkResponse'])->name('passwords.sent');
 Route::post('password/reset', [ResetPasswordController::class, 'sendResetResponse'])->name('passwords.reset');
 
-Route::post('clients-inscription', [AuthenticationController::class, 'register_client']);
+Route::post('register', [AuthenticationController::class, 'register_client']);
 
 Route::post('renvoyer-code', [AuthenticationController::class, 'resend_code']);
 
@@ -72,7 +72,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('code-validation', [AuthenticationController::class, 'code_validation']);
 
     Route::group(['middleware' => ['can:is-client']], function () {
-        Route::prefix('transfert')->name('transfert.')->group(function () {
+        Route::prefix('transferts')->name('transfert.')->group(function () {
             Route::post('store', [TransfertController::class, 'store'])->name('store');
         });
 
