@@ -73,7 +73,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::group(['middleware' => ['can:is-client']], function () {
         Route::prefix('transferts')->name('transfert.')->group(function () {
-            Route::post('store', [TransfertController::class, 'store'])->name('store');
+            Route::post('/', [TransfertController::class, 'store2'])->name('store');
         });
 
         Route::prefix('rechargement')->name('rechargement.')->group(function () {

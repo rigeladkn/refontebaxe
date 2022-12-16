@@ -71,7 +71,9 @@ trait LocalisationTrait
      * @return void
      */
     public function same_country_users(User $user_from, User $user_to)
-    {
+    {   
+        // dd($user_to->ip_register);
+        // dd($this->get_geolocation(request()->ip)['country_code2']);
         if ($this->get_geolocation($user_from->ip_register)['country_code2'] == $this->get_geolocation($user_to->ip_register)['country_code2'] && $this->get_geolocation($user_from->recent_ip)['country_code2'] == $this->get_geolocation($user_to->recent_ip)['country_code2'])
         {
             return true;

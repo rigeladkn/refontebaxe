@@ -127,7 +127,7 @@ if (!function_exists('getUserSolde'))
         try {
             $solde = Solde::where([
                 "user_id" => $user->id
-            ])->first()->actuel;
+            ])->get()->last()->actuel;
         } catch (\Throwable $th) {
             $solde = 0;
         }

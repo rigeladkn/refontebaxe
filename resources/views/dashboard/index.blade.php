@@ -158,10 +158,10 @@
                         </ul>
                         <hr class="mb-2">
                         <p class="d-flex align-items-center font-weight-500 mb-4">Total Amount <span class="text-3 ml-auto">{{$item['total'] ?number_format($item['total'], 2) : 0}} {{$data["devise"]}}</span></p>
-                        <ul class="list-unstyled">
+                        {{-- <ul class="list-unstyled">
                           <li class="font-weight-500">Paid By:</li>
                           <li class="text-muted">Envato Pty Ltd</li>
-                        </ul>
+                        </ul> --}}
                         {{-- <ul class="list-unstyled">
                           <li class="font-weight-500">Transaction ID:</li>
                           <li class="text-muted">26566689645685976589</li>
